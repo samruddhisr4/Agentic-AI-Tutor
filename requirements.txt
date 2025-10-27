@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+streamlit
+langchain
+langchain-openai
+openai
+pydantic
+requests
+numpy
+pandas
+matplotlib
+scikit-learn
+python-dotenv
+langchain-community
+langchain-huggingface
