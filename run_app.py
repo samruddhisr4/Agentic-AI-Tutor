@@ -15,7 +15,7 @@ def run_backend():
         env = os.environ.copy()
         
         process = subprocess.Popen([
-            sys.executable, "-m", "uvicorn", "main:app", "--reload", "--port", "8000"
+            sys.executable, "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"
         ], cwd=backend_dir, env=env)
         return process
     except Exception as e:
@@ -28,7 +28,7 @@ def run_frontend():
         # Change to the src/frontend directory
         frontend_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "src", "frontend")
         process = subprocess.Popen([
-            sys.executable, "-m", "streamlit", "run", "app.py"
+            sys.executable, "-m", "streamlit", "run", "app.py", "--server.port", "8501", "--server.address", "0.0.0.0"
         ], cwd=frontend_dir)
         return process
     except Exception as e:
@@ -41,8 +41,6 @@ if __name__ == "__main__":
     
     # Check which AI engine we're using
     use_gemini = os.getenv("USE_GEMINI", "false").lower() == "true"
-    use_huggingface = os.getenv("USE_HUGGINGFACE", "false").lower() == "true"
-    use_ollama = os.getenv("USE_OLLAMA", "false").lower() == "true"
     
     # Check for required API keys
     if use_gemini and "GOOGLE_API_KEY" not in os.environ:
@@ -52,29 +50,10 @@ if __name__ == "__main__":
         print("You have two options:")
         print("1. Set your Google Gemini API key in a .env file:")
         print("   GOOGLE_API_KEY=your-api-key-here")
-        print("2. Use Hugging Face models (free) by setting in .env:")
-        print("   USE_HUGGINGFACE=true")
         print("=" * 60)
         sys.exit(1)
-    elif use_huggingface:
-        print("Using Hugging Face models (free alternative)")
-    elif use_ollama:
-        print("Using Ollama models (local, free)")
     elif use_gemini:
         print("GOOGLE_API_KEY is set successfully")
-    elif not use_gemini and "OPENAI_API_KEY" not in os.environ:
-        print("=" * 60)
-        print("OPENAI_API_KEY is not set in your environment variables")
-        print("=" * 60)
-        print("You have two options:")
-        print("1. Set your OpenAI API key in a .env file:")
-        print("   OPENAI_API_KEY=your-api-key-here")
-        print("2. Use Hugging Face models (free) by setting in .env:")
-        print("   USE_HUGGINGFACE=true")
-        print("=" * 60)
-        sys.exit(1)
-    else:
-        print("OPENAI_API_KEY is set successfully")
     
     # Start backend server
     backend_process = run_backend()

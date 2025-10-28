@@ -38,6 +38,10 @@ class QuizResponse(BaseModel):
 print("Using Google Gemini models")
 from ai_engine.ai_engine_gemini import generate_ai_response as ai_generate_response, generate_quiz as ai_generate_quiz
 
+@app.get("/")
+async def root():
+    return {"message": "Agentic AI Tutor Backend is running"}
+
 @app.post("/generate_response", response_model=QueryResponse)
 async def generate_response(request: QueryRequest):
     try:
@@ -73,4 +77,6 @@ async def generate_quiz_endpoint(request: QuizRequest):
         raise HTTPException(status_code=500, detail=error_details)
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    # Get port from environment variable or default to 8000
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)

@@ -34,14 +34,12 @@ An intelligent tutoring system powered by Large Language Models (LLMs) that prov
 ## 🛠️ Installation
 
 1. **Clone the repository**:
-
    ```bash
    git clone <repository-url>
    cd Agentic-AI-Tutor
    ```
 
 2. **Set up a virtual environment**:
-
    ```bash
    python -m venv .venv
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
@@ -58,41 +56,39 @@ An intelligent tutoring system powered by Large Language Models (LLMs) that prov
 - [Architecture](docs/architecture.md) - System architecture diagram
 - [Contributing Guide](docs/contributing.md) - Guidelines for contributing to the project
 - [Troubleshooting Guide](docs/troubleshooting.md) - Common issues and solutions
+- [Deployment Guide](DEPLOYMENT.md) - Instructions for deploying to Streamlit Cloud and other platforms
 
 ## ⚙️ Configuration
 
 1. **Set up environment variables**:
    Create a `.env` file in the project root with the following content:
-
    ```env
    # Use Google Gemini models (required)
    USE_GEMINI=true
-
+   
    # Google Gemini API Key (required)
    GOOGLE_API_KEY=your-google-gemini-api-key-here
    ```
 
 ## 🎯 Usage
 
-### Running the Full Application
+### Running the Full Application Locally
 
 ```bash
 python run_app.py
 ```
 
-This will start both the backend API server and the Streamlit frontend.
+This will start both the backend API server (on port 8000) and the Streamlit frontend (on port 8501).
 
 ### Running Components Separately
 
 **Start the backend API server**:
-
 ```bash
 cd src/backend
 uvicorn main:app --reload --port 8000
 ```
 
 **Start the frontend**:
-
 ```bash
 cd src/frontend
 streamlit run app.py
@@ -101,11 +97,10 @@ streamlit run app.py
 ### API Endpoints
 
 - **Generate Response**: `POST /generate_response`
-
   ```json
   {
     "query": "Explain quantum computing",
-    "style": "in_depth" // Options: "in_depth", "visual", "hands_on"
+    "style": "in_depth"  // Options: "in_depth", "visual", "hands_on"
   }
   ```
 
@@ -117,6 +112,27 @@ streamlit run app.py
     "num_questions": 5
   }
   ```
+
+## ☁️ Deployment
+
+### Streamlit Cloud
+
+1. Push your code to a GitHub repository
+2. Connect to Streamlit Cloud
+3. Set the main file to `src/frontend/app.py`
+4. Add environment variables:
+   - `USE_GEMINI=true`
+   - `GOOGLE_API_KEY=your_api_key`
+   - `BACKEND_URL=https://your-backend-url.com`
+
+Note: For Streamlit Cloud deployment, you'll need to deploy the backend separately (see [Deployment Guide](DEPLOYMENT.md)).
+
+### Local Deployment
+
+For local deployment, simply run:
+```bash
+python run_app.py
+```
 
 ## 📁 Project Structure
 
@@ -131,7 +147,8 @@ Agentic-AI-Tutor/
 │       └── app.py                 # Streamlit frontend
 ├── .env                           # Environment variables
 ├── requirements.txt               # Python dependencies
-└── run_app.py                     # Application runner
+├── run_app.py                     # Application runner
+└── DEPLOYMENT.md                  # Deployment instructions
 ```
 
 ## 🚨 Troubleshooting
@@ -149,7 +166,13 @@ Agentic-AI-Tutor/
 2. **Check Google Cloud project settings** - Ensure the Generative Language API is enabled
 3. **Verify billing status** - Check that your Google Cloud project has billing enabled
 
-See our detailed [Troubleshooting Guide](docs/troubleshooting.md) for more help.
+### Common Deployment Issues:
+
+1. **Version Compatibility**: Make sure you're using compatible versions of langchain packages
+2. **Port Binding**: Ensure your application binds to the correct port on deployment platforms
+3. **Environment Variables**: Verify all required environment variables are set
+
+See our detailed [Troubleshooting Guide](docs/troubleshooting.md) and [Deployment Guide](DEPLOYMENT.md) for more help.
 
 ## 🤝 Contributing
 

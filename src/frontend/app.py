@@ -3,6 +3,7 @@ import streamlit as st
 import requests
 import json
 from typing import Dict, List
+import os
 
 # Set page configuration
 st.set_page_config(page_title="Agentic AI Tutor", page_icon="🤖", layout="wide")
@@ -96,20 +97,11 @@ st.markdown("""
 st.markdown("<h1 class='header'>🧠 Agentic AI Tutor & Quiz Generator</h1>", unsafe_allow_html=True)
 st.markdown("<p class='header'>Your personal AI tutor for technical concepts and placement preparation</p>", unsafe_allow_html=True)
 
-# Warning about new accounts
-st.markdown("""
-<div class="warning">
-<b>Notice for New Google Gemini Accounts:</b> If you're using a newly created Google Cloud account with Gemini API, 
-it may take some time (up to 24-48 hours) for your account to be fully verified and 
-granted API access. This is normal and happens for security reasons.
-</div>
-""", unsafe_allow_html=True)
-
 # Sidebar navigation
 page = st.sidebar.radio("Choose a feature:", ["AI Tutor", "Quiz Generator"])
 
-# Backend URL - Updated to use localhost:8000
-BACKEND_URL = "http://localhost:8000"
+# Backend URL - Make it configurable for different environments
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
 # AI Tutor Page
 if page == "AI Tutor":
