@@ -25,6 +25,7 @@ When setting up your app on Streamlit Cloud:
 ### 4. Set Environment Variables
 
 In the Streamlit Cloud dashboard, go to your app settings and add these environment variables:
+
 ```
 USE_GEMINI=true
 GOOGLE_API_KEY=your_actual_google_api_key_here
@@ -71,6 +72,7 @@ Note: For Streamlit Cloud, you'll need to deploy the backend separately (e.g., o
 To run the application locally:
 
 1. Set up environment variables in `.env`:
+
    ```
    USE_GEMINI=true
    GOOGLE_API_KEY=your_google_api_key_here
@@ -90,6 +92,7 @@ This will start both the backend (on port 8000) and frontend (on port 8501).
 This error occurs due to version incompatibility between langchain packages. To fix:
 
 1. Update your requirements.txt with compatible versions:
+
    ```
    langchain>=0.3.0
    langchain-google-genai>=2.0.0
