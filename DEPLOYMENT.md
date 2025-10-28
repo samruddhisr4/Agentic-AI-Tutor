@@ -25,7 +25,6 @@ When setting up your app on Streamlit Cloud:
 ### 4. Set Environment Variables
 
 In the Streamlit Cloud dashboard, go to your app settings and add these environment variables:
-
 ```
 USE_GEMINI=true
 GOOGLE_API_KEY=your_actual_google_api_key_here
@@ -72,7 +71,6 @@ Note: For Streamlit Cloud, you'll need to deploy the backend separately (e.g., o
 To run the application locally:
 
 1. Set up environment variables in `.env`:
-
    ```
    USE_GEMINI=true
    GOOGLE_API_KEY=your_google_api_key_here
@@ -87,17 +85,26 @@ This will start both the backend (on port 8000) and frontend (on port 8501).
 
 ## Troubleshooting Common Issues
 
+### Dependency Conflicts
+
+If you see dependency conflicts like:
+```
+langchain-classic 1.0.0 requires langchain-core<2.0.0,>=1.0.0, but you have langchain-core 0.3.79 which is incompatible
+```
+
+This means there are version mismatches between packages. Our requirements.txt has been updated with compatible versions:
+- `langchain==0.3.7`
+- `langchain-core==0.3.15`
+- `langchain-google-genai==2.0.1`
+- `langchain-community==0.3.2`
+- `langchain-openai==0.2.10`
+- `langchain-huggingface==0.1.2`
+
 ### ModuleNotFoundError: No module named 'langchain_core.pydantic_v1'
 
 This error occurs due to version incompatibility between langchain packages. To fix:
 
-1. Update your requirements.txt with compatible versions:
-
-   ```
-   langchain>=0.3.0
-   langchain-google-genai>=2.0.0
-   ```
-
+1. Use the exact versions specified in requirements.txt
 2. Redeploy your application
 
 ### Port Binding Issues
@@ -115,3 +122,28 @@ If your API key isn't being recognized:
 2. Verify that you're using the correct variable names:
    - `USE_GEMINI=true`
    - `GOOGLE_API_KEY=your_actual_key`
+
+### Checking Package Versions Locally
+
+To verify your package versions locally:
+```bash
+pip list | grep langchain
+```
+
+This should show:
+- langchain 0.3.7
+- langchain-core 0.3.15
+- langchain-google-genai 2.0.1
+- langchain-community 0.3.2
+- langchain-openai 0.2.10
+- langchain-huggingface 0.1.2
+
+### Forcing Clean Installation
+
+If you continue to have issues:
+```bash
+pip uninstall langchain langchain-core langchain-google-genai langchain-community langchain-openai langchain-huggingface
+pip install -r requirements.txt
+```
+
+This ensures all packages are installed with the exact compatible versions specified.
