@@ -39,11 +39,30 @@ if __name__ == "__main__":
     # Load environment variables from .env file
     load_dotenv()
     
-    # Check if we're using Hugging Face models
+    # Check which AI engine we're using
+    use_gemini = os.getenv("USE_GEMINI", "false").lower() == "true"
     use_huggingface = os.getenv("USE_HUGGINGFACE", "false").lower() == "true"
+    use_ollama = os.getenv("USE_OLLAMA", "false").lower() == "true"
     
-    # Only require OPENAI_API_KEY if we're not using Hugging Face
-    if not use_huggingface and "OPENAI_API_KEY" not in os.environ:
+    # Check for required API keys
+    if use_gemini and "GOOGLE_API_KEY" not in os.environ:
+        print("=" * 60)
+        print("GOOGLE_API_KEY is not set in your environment variables")
+        print("=" * 60)
+        print("You have two options:")
+        print("1. Set your Google Gemini API key in a .env file:")
+        print("   GOOGLE_API_KEY=your-api-key-here")
+        print("2. Use Hugging Face models (free) by setting in .env:")
+        print("   USE_HUGGINGFACE=true")
+        print("=" * 60)
+        sys.exit(1)
+    elif use_huggingface:
+        print("Using Hugging Face models (free alternative)")
+    elif use_ollama:
+        print("Using Ollama models (local, free)")
+    elif use_gemini:
+        print("GOOGLE_API_KEY is set successfully")
+    elif not use_gemini and "OPENAI_API_KEY" not in os.environ:
         print("=" * 60)
         print("OPENAI_API_KEY is not set in your environment variables")
         print("=" * 60)
@@ -54,8 +73,6 @@ if __name__ == "__main__":
         print("   USE_HUGGINGFACE=true")
         print("=" * 60)
         sys.exit(1)
-    elif use_huggingface:
-        print("Using Hugging Face models (free alternative)")
     else:
         print("OPENAI_API_KEY is set successfully")
     

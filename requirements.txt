@@ -13,3 +13,5 @@ scikit-learn
 python-dotenv
 langchain-community
 langchain-huggingface
+langchain-google-genai
+google-generativeai

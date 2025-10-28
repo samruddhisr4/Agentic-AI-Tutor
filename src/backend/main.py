@@ -34,56 +34,9 @@ class QueryResponse(BaseModel):
 class QuizResponse(BaseModel):
     questions: list[Dict[str, Any]]
 
-# Determine which AI engine to use
-USE_HUGGINGFACE = os.getenv("USE_HUGGINGFACE", "false").lower() == "true"
-USE_OLLAMA = os.getenv("USE_OLLAMA", "false").lower() == "true"
-
-# Try to import the appropriate AI engine
-try:
-    if USE_OLLAMA:
-        print("Using Ollama models")
-        from ai_engine.ai_engine_ollama import generate_ai_response as ai_generate_response, generate_quiz as ai_generate_quiz
-    elif USE_HUGGINGFACE:
-        print("Using HuggingFace models")
-        # Try the direct implementation first
-        try:
-            from ai_engine.ai_engine_hf_direct import generate_ai_response as ai_generate_response, generate_quiz as ai_generate_quiz
-            print("Using direct HuggingFace API implementation")
-        except Exception as e:
-            print(f"Failed to import direct HuggingFace engine: {e}")
-            # Fall back to the LangChain implementation
-            from ai_engine.ai_engine_hf import generate_ai_response as ai_generate_response, generate_quiz as ai_generate_quiz
-    else:
-        print("Using OpenAI models")
-        from ai_engine.ai_engine import generate_ai_response as ai_generate_response, generate_quiz as ai_generate_quiz
-except Exception as e:
-    # If we're supposed to use Ollama, but it failed to import, try HuggingFace as fallback
-    if USE_OLLAMA:
-        print(f"Failed to import Ollama engine: {e}")
-        print("Falling back to HuggingFace models")
-        try:
-            from ai_engine.ai_engine_hf_direct import generate_ai_response as ai_generate_response, generate_quiz as ai_generate_quiz
-            print("Using direct HuggingFace API implementation")
-        except Exception as e2:
-            print(f"Failed to import direct HuggingFace engine: {e2}")
-            # Fall back to the LangChain implementation
-            from ai_engine.ai_engine_hf import generate_ai_response as ai_generate_response, generate_quiz as ai_generate_quiz
-    # If we're supposed to use HuggingFace, but it failed to import, try to fall back gracefully
-    elif USE_HUGGINGFACE:
-        print(f"Failed to import HuggingFace engine: {e}")
-        print("Falling back to HuggingFace engine with error handling")
-        # Try the direct implementation first
-        try:
-            from ai_engine.ai_engine_hf_direct import generate_ai_response as ai_generate_response, generate_quiz as ai_generate_quiz
-            print("Using direct HuggingFace API implementation")
-        except Exception as e2:
-            print(f"Failed to import direct HuggingFace engine: {e2}")
-            # Fall back to the LangChain implementation
-            from ai_engine.ai_engine_hf import generate_ai_response as ai_generate_response, generate_quiz as ai_generate_quiz
-    else:
-        # If we're supposed to use OpenAI but it failed, and we're not using HuggingFace, re-raise the error
-        print(f"Failed to import OpenAI engine: {e}")
-        raise e
+# Only use Google Gemini models
+print("Using Google Gemini models")
+from ai_engine.ai_engine_gemini import generate_ai_response as ai_generate_response, generate_quiz as ai_generate_quiz
 
 @app.post("/generate_response", response_model=QueryResponse)
 async def generate_response(request: QueryRequest):
@@ -120,4 +73,4 @@ async def generate_quiz_endpoint(request: QuizRequest):
         raise HTTPException(status_code=500, detail=error_details)
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

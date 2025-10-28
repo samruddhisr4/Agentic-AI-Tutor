@@ -99,7 +99,7 @@ st.markdown("<p class='header'>Your personal AI tutor for technical concepts and
 # Warning about new accounts
 st.markdown("""
 <div class="warning">
-<b>Notice for New OpenAI Accounts:</b> If you're using a newly created OpenAI account, 
+<b>Notice for New Google Gemini Accounts:</b> If you're using a newly created Google Cloud account with Gemini API, 
 it may take some time (up to 24-48 hours) for your account to be fully verified and 
 granted API access. This is normal and happens for security reasons.
 </div>
@@ -107,6 +107,9 @@ granted API access. This is normal and happens for security reasons.
 
 # Sidebar navigation
 page = st.sidebar.radio("Choose a feature:", ["AI Tutor", "Quiz Generator"])
+
+# Backend URL - Updated to use localhost:8000
+BACKEND_URL = "http://localhost:8000"
 
 # AI Tutor Page
 if page == "AI Tutor":
@@ -124,13 +127,13 @@ if page == "AI Tutor":
             st.error("Please enter a question or topic.")
         else:
             try:
-                # Show a loading message
-                with st.spinner("Generating response... This may take a moment."):
+                # Show a loading message with more detailed information
+                with st.spinner("Generating response... "):
                     # Make API call to backend with increased timeout
                     response = requests.post(
-                        "http://localhost:8000/generate_response",
+                        f"{BACKEND_URL}/generate_response",
                         json={"query": user_query, "style": style},
-                        timeout=60  # Increased timeout to 60 seconds
+                        timeout=120  # Increased timeout to 120 seconds
                     )
                 
                 if response.status_code == 200:
@@ -138,26 +141,38 @@ if page == "AI Tutor":
                     st.markdown(f"<div class='card'><h3>AI Response:</h3><p>{result['response']}</p></div>", unsafe_allow_html=True)
                 elif response.status_code == 429:
                     st.error("""
-                    **Quota Limit Reached**: Your OpenAI account has exceeded its current quota.
+                    **Quota Limit Reached**: Your Google Gemini account has exceeded its current quota.
                     
-                    If you're using a new account:
-                    1. Wait for account verification (can take up to 24-48 hours)
-                    2. Check your billing status at https://platform.openai.com/account/billing
-                    3. Ensure your payment method is verified
-                    
-                    If you're using an existing account:
-                    1. Check your usage limits
-                    2. Consider upgrading your plan
+                    Solutions:
+                    1. Wait a few minutes and try again
+                    2. Check your Google Cloud Console for quota usage
+                    3. Consider upgrading your plan for higher quotas
                     """)
                 else:
                     st.error(f"Backend Error ({response.status_code}): {response.text}")
                     
             except requests.exceptions.Timeout:
-                st.error("The request timed out. This might be due to high demand or quota limits. Please try again later.")
+                st.error("""
+                ⚠️ Request timed out (120 seconds exceeded)
+                
+                This might be due to:
+                - High demand on the AI model
+                - Complex query requiring more processing time
+                - Network connectivity issues
+                
+                Please try again with a simpler query or wait a few minutes before retrying.
+                """)
             except requests.exceptions.ConnectionError:
-                st.error("Could not connect to the backend server. Please make sure the application is running.")
+                st.error("""
+                🔌 Could not connect to the backend server
+                
+                Please make sure the application is running.
+                Run 'python run_app.py' in your terminal to start the application.
+                """)
+                st.error(f"Expected backend URL: {BACKEND_URL}")
             except Exception as e:
-                st.error(f"An error occurred: {str(e)}")
+                st.error(f"An unexpected error occurred: {str(e)}")
+                st.info("💡 Tip: Try a shorter or simpler query for faster response times.")
 
 # Quiz Generator Page
 elif page == "Quiz Generator":
@@ -177,17 +192,17 @@ elif page == "Quiz Generator":
     # Generate button
     if st.button("Generate Quiz"):
         try:
-            # Show a loading message
-            with st.spinner("Generating quiz... This may take a moment."):
+            # Show a loading message with more detailed information
+            with st.spinner("Generating quiz... "):
                 # Make API call to backend with increased timeout
                 response = requests.post(
-                    "http://localhost:8000/generate_quiz",
+                    f"{BACKEND_URL}/generate_quiz",
                     json={
                         "topic": selected_topic,
                         "difficulty": selected_difficulty,
                         "num_questions": num_questions
                     },
-                    timeout=60  # Increased timeout to 60 seconds
+                    timeout=120  # Increased timeout to 120 seconds
                 )
             
             if response.status_code == 200:
@@ -218,23 +233,35 @@ elif page == "Quiz Generator":
                     
             elif response.status_code == 429:
                 st.error("""
-                **Quota Limit Reached**: Your OpenAI account has exceeded its current quota.
+                **Quota Limit Reached**: Your Google Gemini account has exceeded its current quota.
                 
-                If you're using a new account:
-                1. Wait for account verification (can take up to 24-48 hours)
-                2. Check your billing status at https://platform.openai.com/account/billing
-                3. Ensure your payment method is verified
-                
-                If you're using an existing account:
-                1. Check your usage limits
-                2. Consider upgrading your plan
+                Solutions:
+                1. Wait a few minutes and try again
+                2. Check your Google Cloud Console for quota usage
+                3. Consider upgrading your plan for higher quotas
                 """)
             else:
                 st.error(f"Backend Error ({response.status_code}): {response.text}")
                 
         except requests.exceptions.Timeout:
-            st.error("The request timed out. This might be due to high demand or quota limits. Please try again later.")
+            st.error("""
+            ⚠️ Request timed out (120 seconds exceeded)
+            
+            This might be due to:
+            - High demand on the AI model
+            - Complex quiz generation requiring more processing time
+            - Network connectivity issues
+            
+            Please try again with fewer questions or wait a few minutes before retrying.
+            """)
         except requests.exceptions.ConnectionError:
-            st.error("Could not connect to the backend server. Please make sure the application is running.")
+            st.error("""
+            🔌 Could not connect to the backend server
+            
+            Please make sure the application is running.
+            Run 'python run_app.py' in your terminal to start the application.
+            """)
+            st.error(f"Expected backend URL: {BACKEND_URL}")
         except Exception as e:
-            st.error(f"An error occurred: {str(e)}")
+            st.error(f"An unexpected error occurred: {str(e)}")
+            st.info("💡 Tip: Try generating fewer questions for faster response times.")
