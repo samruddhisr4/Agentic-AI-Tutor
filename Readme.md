@@ -5,8 +5,8 @@
 [![Google Gemini](https://img.shields.io/badge/Google-Gemini-blue)](https://ai.google/discover/gemini/)
 
 An intelligent tutoring system powered by Large Language Models (LLMs) that provides personalized learning experiences through interactive AI-driven content generation and quiz creation.
+The demo is available at : https://kiad6dlv43xtxb2v2ghzow.streamlit.app/
 
-![Agentic AI Tutor Demo](https://kiad6dlv43xtxb2v2ghzow.streamlit.app/)
 
 ## 🌟 Features
 
