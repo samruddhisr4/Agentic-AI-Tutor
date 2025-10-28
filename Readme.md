@@ -6,7 +6,7 @@
 
 An intelligent tutoring system powered by Large Language Models (LLMs) that provides personalized learning experiences through interactive AI-driven content generation and quiz creation.
 
-![Agentic AI Tutor Demo](https://via.placeholder.com/800x400.png?text=Agentic+AI+Tutor+Interface)
+![Agentic AI Tutor Demo](https://kiad6dlv43xtxb2v2ghzow.streamlit.app/)
 
 ## 🌟 Features
 
