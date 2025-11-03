@@ -25,6 +25,7 @@ When setting up your app on Streamlit Cloud:
 ### 4. Set Environment Variables
 
 In the Streamlit Cloud dashboard, go to your app settings and add these environment variables:
+
 ```
 USE_GEMINI=true
 GOOGLE_API_KEY=your_actual_google_api_key_here
@@ -71,6 +72,7 @@ Note: For Streamlit Cloud, you'll need to deploy the backend separately (e.g., o
 To run the application locally:
 
 1. Set up environment variables in `.env`:
+
    ```
    USE_GEMINI=true
    GOOGLE_API_KEY=your_google_api_key_here
@@ -88,11 +90,13 @@ This will start both the backend (on port 8000) and frontend (on port 8501).
 ### Dependency Conflicts
 
 If you see dependency conflicts like:
+
 ```
 Because langchain-openai==0.2.10 depends on langchain-core>=0.3.21,<0.4.0 and you require langchain-core==0.3.15, we can conclude that your requirements and langchain-openai==0.2.10 are incompatible.
 ```
 
 This means there are version mismatches between packages. Our requirements.txt has been updated with compatible versions:
+
 - `langchain==0.3.7`
 - `langchain-core==0.3.21` (updated to satisfy all dependencies)
 - `langchain-google-genai==2.0.1`
@@ -126,11 +130,13 @@ If your API key isn't being recognized:
 ### Checking Package Versions Locally
 
 To verify your package versions locally:
+
 ```bash
 pip list | grep langchain
 ```
 
 This should show:
+
 - langchain 0.3.7
 - langchain-core 0.3.21
 - langchain-google-genai 2.0.1
@@ -141,6 +147,7 @@ This should show:
 ### Forcing Clean Installation
 
 If you continue to have issues:
+
 ```bash
 pip uninstall langchain langchain-core langchain-google-genai langchain-community langchain-openai langchain-huggingface
 pip install -r requirements.txt

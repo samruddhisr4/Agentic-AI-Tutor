@@ -34,12 +34,14 @@ An intelligent tutoring system powered by Large Language Models (LLMs) that prov
 ## 🛠️ Installation
 
 1. **Clone the repository**:
+
    ```bash
    git clone <repository-url>
    cd Agentic-AI-Tutor
    ```
 
 2. **Set up a virtual environment**:
+
    ```bash
    python -m venv .venv
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
@@ -62,10 +64,11 @@ An intelligent tutoring system powered by Large Language Models (LLMs) that prov
 
 1. **Set up environment variables**:
    Create a `.env` file in the project root with the following content:
+
    ```env
    # Use Google Gemini models (required)
    USE_GEMINI=true
-   
+
    # Google Gemini API Key (required)
    GOOGLE_API_KEY=your-google-gemini-api-key-here
    ```
@@ -83,12 +86,14 @@ This will start both the backend API server (on port 8000) and the Streamlit fro
 ### Running Components Separately
 
 **Start the backend API server**:
+
 ```bash
 cd src/backend
 uvicorn main:app --reload --port 8000
 ```
 
 **Start the frontend**:
+
 ```bash
 cd src/frontend
 streamlit run app.py
@@ -97,10 +102,11 @@ streamlit run app.py
 ### API Endpoints
 
 - **Generate Response**: `POST /generate_response`
+
   ```json
   {
     "query": "Explain quantum computing",
-    "style": "in_depth"  // Options: "in_depth", "visual", "hands_on"
+    "style": "in_depth" // Options: "in_depth", "visual", "hands_on"
   }
   ```
 
@@ -130,6 +136,7 @@ Note: For Streamlit Cloud deployment, you'll need to deploy the backend separate
 ### Local Deployment
 
 For local deployment, simply run:
+
 ```bash
 python run_app.py
 ```

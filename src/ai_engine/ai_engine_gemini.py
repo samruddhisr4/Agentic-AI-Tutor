@@ -19,9 +19,10 @@ if api_key:
         genai.configure(api_key=api_key)
         
         # Initialize the LLM with LangChain wrapper
+        # Convert api_key to string to avoid validation errors
         llm = ChatGoogleGenerativeAI(
             model="gemini-pro-latest",
-            google_api_key=SecretStr(api_key),
+            google_api_key=str(api_key),
             temperature=0.7
         )
         print("Successfully initialized Gemini LLM")
