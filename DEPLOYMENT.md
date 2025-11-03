@@ -89,12 +89,12 @@ This will start both the backend (on port 8000) and frontend (on port 8501).
 
 If you see dependency conflicts like:
 ```
-langchain-classic 1.0.0 requires langchain-core<2.0.0,>=1.0.0, but you have langchain-core 0.3.79 which is incompatible
+Because langchain-openai==0.2.10 depends on langchain-core>=0.3.21,<0.4.0 and you require langchain-core==0.3.15, we can conclude that your requirements and langchain-openai==0.2.10 are incompatible.
 ```
 
 This means there are version mismatches between packages. Our requirements.txt has been updated with compatible versions:
 - `langchain==0.3.7`
-- `langchain-core==0.3.15`
+- `langchain-core==0.3.21` (updated to satisfy all dependencies)
 - `langchain-google-genai==2.0.1`
 - `langchain-community==0.3.2`
 - `langchain-openai==0.2.10`
@@ -132,7 +132,7 @@ pip list | grep langchain
 
 This should show:
 - langchain 0.3.7
-- langchain-core 0.3.15
+- langchain-core 0.3.21
 - langchain-google-genai 2.0.1
 - langchain-community 0.3.2
 - langchain-openai 0.2.10
