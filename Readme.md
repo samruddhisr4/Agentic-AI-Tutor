@@ -5,7 +5,6 @@
 [![Google Gemini](https://img.shields.io/badge/Google-Gemini-blue)](https://ai.google/discover/gemini/)
 
 An intelligent tutoring system powered by Large Language Models (LLMs) that provides personalized learning experiences through interactive AI-driven content generation and quiz creation.
-The demo is available at :
 
 
 ## 🌟 Features
@@ -157,6 +156,16 @@ Agentic-AI-Tutor/
 ├── run_app.py                     # Application runner
 └── DEPLOYMENT.md                  # Deployment instructions
 ```
+
+## Sample photos of the implementation
+
+<img width="1913" height="1079" alt="Screenshot 2025-11-03 231514" src="https://github.com/user-attachments/assets/d11e915f-0002-474c-a2ef-0ed816103052" />
+
+
+<img width="1919" height="1079" alt="Screenshot 2025-11-03 231531" src="https://github.com/user-attachments/assets/cc27ddc5-9a16-40c1-988b-d37d96f6ec45" />
+
+<img width="1919" height="1079" alt="Screenshot 2025-11-03 231600" src="https://github.com/user-attachments/assets/0c39e55b-a03a-4faa-b374-9adf5387f6c7" />
+
 
 ## 🚨 Troubleshooting
 
